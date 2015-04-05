@@ -1,0 +1,9 @@
+#! /bin/bash
+# cd /home/mschilling/Desktop/gbs15/scripts_zg/ind/
+
+for i in *.fasta; do
+    id=$(echo $i | cut -f1 -d.)
+    echo $i
+    /usr/bin/vsearch --cluster_fast $i --id 0.98 --threads 8 --centroids centroids_$i > runInfo$id.txt 2>&1
+done
+

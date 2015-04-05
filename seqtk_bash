@@ -1,0 +1,8 @@
+#! /bin/bash
+# cd /home/mschilling/Desktop/gbs15/scripts_zg/ind/
+
+for i in *.fastq; do
+    id=$(echo $i | cut -f1 -d.)
+    seqtk seq -a $i > $id.fasta
+done
+
