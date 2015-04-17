@@ -1,0 +1,14 @@
+#! /bin/bash
+# cd /home/mschilling/Desktop/gbs15/scripts_zg/ind/
+
+for i in /home/mschilling/Desktop/gbs15/ind/*.fastq; do
+    file=$(echo $i | cut -f7 -d/)
+    id=$(echo $i | cut -f1 -d.)
+    id=$(echo $id | cut -f7 -d/)
+    RG=${variable}'@RG:\tID:'${id}
+    bwa aln -t 12 -l 20 -k 2 -I -q 10 -Y -n 5 /home/mschilling/Desktop/gbs15/ref/lasio_contigs.fasta $i -f ${id}.sai
+    #bwa samse -n 1 -r "'$RG'" /home/mschilling/Desktop/gbs15/ref/lasio_contigs.fasta ${id}.sai -f ${id}.sam    
+    echo $id
+
+done
+

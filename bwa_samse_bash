@@ -1,0 +1,17 @@
+#! /bin/bash
+# cd /home/mschilling/Desktop/gbs15/scripts_zg/ind/
+
+for i in /home/mschilling/Desktop/gbs15/ind/*.sai; do
+    file=$(echo $i | cut -f7 -d/)
+    id=$(echo $i | cut -f1 -d.)
+    id=$(echo $id | cut -f7 -d/)
+    #RG=\'@RG'\t'ID:${id}\'
+    echo $id
+    #bwa aln -t 13 -l 20 -k 2 -I -q 10 -Y -n 5 /home/mschilling/Desktop/gbs15/ref/lasio_contigs.fasta $i -f ${id}.sai
+    bwa samse -n 1 -f ${id}.sam -r "@RG\tID:$id\tLB:$id\tSM:$id\tPL:ILLUMINA" /home/mschilling/Desktop/gbs15/ref/lasio_contigs.fasta $file ${id}.fastq   
+    #echo $RG      #\'\@RG\\tID:$id\'
+done
+
+# \'\@RG\tID:cmac-"."$ind"."\'
+
+#bwa samse -n 1 -f CR1043.sam -r '@RG:\tID:CR1043' /home/mschilling/Desktop/gbs15/ref/lasio_contigs.fasta CR1043.sai CR1043.fastq
