@@ -1,8 +1,10 @@
 #! /usr/bin/python
 # 
-# This script reads a fasta file (the vsearch output with centroids) and writes a new file where all the sequences with less than 70 reads have been discarded. 
+# This script reads a fasta file and outputs a txt file containing the gene name as well as the length of each respective sequence.
 
-# Usage: ./exclude_short_seqs.py <input-file_name.fasta> <new_file_name.fasta>
+# Usage: ./get_seq_length.py <input-file_name.fasta> <new_file_name.csv>
+
+
 
 
 import sys
