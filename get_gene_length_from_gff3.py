@@ -1,12 +1,12 @@
 #! /usr/bin/python
 
 
-#
-#
-#
+# This script reads through an annototation file (in gff3 format) and 
+# extracts the length of a gene (only for type gene). The output file
+# contains the gene name as well as the length of the given gene. 
 #
 
-# Usage: 
+# Usage: ./get_gene_length_from_gff3.py <gff3-file-name> <output_file.csv>
 
 
 
