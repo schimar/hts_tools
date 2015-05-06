@@ -86,7 +86,8 @@ with open(sys.argv[1], 'rb') as file:
             else: 
                 continue
 
-
+    file.close()
+    newfile.close()
             
             
   
