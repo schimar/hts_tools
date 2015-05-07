@@ -2,7 +2,7 @@
 
 # this script takes the output from DESeq2 and creates a list 
 # containing the gene and a binary vector for significant differential 
-# expression (at a given p-value cutoff, e.g. 0.01)
+# expression (at a given adjusted p-value (padj) cutoff, e.g. 0.01)
 #
 # Usage: ./get_DESeq2_signif.py <p-value_threshold> <input_file_name> <output_file.txt>
 
