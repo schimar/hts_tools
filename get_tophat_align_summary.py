@@ -24,21 +24,18 @@ with open('align_summary.txt', 'rb') as file:
             else:
                 if re.findall('Input', line):
                     reads = re.findall('[0-9]+', line)[0]
-                    print reads
                 elif re.findall('Mapped', line):
                     mapped = re.findall('[0-9]+', line)
                 elif re.findall('of these', line):
                     mult_aln = re.findall('[0-9]+', line)[0]
-                    mult_rate = str(float(re.findall('[0-9]+\.[0-9]+',
-                                                     line)[0])/100)
+                #    mult_rate = str(float(re.findall('[0-9]+\.[0-9]+', line)[0])/100)
                     align_20 = re.findall('[0-9]+', line)[3]
-                elif re.findall('overall', line):
-                    aln_rate = str(float(re.findall('[0-9]+\.[0-9]+',
-                                                    line)[0])/100)
+                #elif re.findall('overall', line):
+                #    aln_rate = str(float(re.findall('[0-9]+\.[0-9]+', line)[0])/100)
                 else:
                     continue
-        print type(reads[0]), type(mapped[0]), type(mult_aln), type(mult_rate), type(align_20), type(aln_rate)
-                #newline = str(reads + '\t' + mapped[0] + '\t' + mult_aln + '\t' + mult_rate + '\t' + align_20 + '\t' + aln_rate)
+        print reads, mapped[0], float(mapped[1])/100, mult_aln, align_20
+        #newline = str(reads + '\t' + mapped[0] + '\t' + mult_aln + '\t' + mult_rate + '\t' + align_20 + '\t' + aln_rate)
         #print newline
 
 

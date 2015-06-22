@@ -4,7 +4,7 @@
 for i in */; do
     id=$(echo $i | cut -f1 -dc)
     id=$(echo $id | cut -f1 -dt)
-    echo $id
+    #echo $id
     cd $i
     /home/mschilling/ngs_tools/get_tophat_align_summary.py $id 
     cd ..
