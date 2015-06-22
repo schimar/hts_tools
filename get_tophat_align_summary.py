@@ -12,14 +12,19 @@ import re
 
 #newfile = open(sys.argv[2], 'a')
 sample = sys.argv[1]
+mapped= str()
+mult_aln= str()
+mult_rate= str()
+align_20= str()
+aln_rate= str()
 with open('align_summary.txt', 'rb') as file:
 	for line in file:
-            #line = str(line)
             if line.split() == []:
                 continue
             else:
                 if re.findall('Input', line):
-                    reads = re.findall('[0-9]+', line)
+                    reads = re.findall('[0-9]+', line)[0]
+                    print reads
                 elif re.findall('Mapped', line):
                     mapped = re.findall('[0-9]+', line)
                 elif re.findall('of these', line):
@@ -32,8 +37,9 @@ with open('align_summary.txt', 'rb') as file:
                                                     line)[0])/100)
                 else:
                     continue
-        newline = str(reads + '\t' + mapped + '\t' + mult_aln + '\t' + mult_rate + '\t' + align_20 + '\t' + aln_rate)
-
+        print type(reads[0]), type(mapped[0]), type(mult_aln), type(mult_rate), type(align_20), type(aln_rate)
+                #newline = str(reads + '\t' + mapped[0] + '\t' + mult_aln + '\t' + mult_rate + '\t' + align_20 + '\t' + aln_rate)
+        #print newline
 
 
             #        newline = str(line)
