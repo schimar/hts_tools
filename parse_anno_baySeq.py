@@ -14,44 +14,44 @@ import re
 #newfile = open(sys.argv[2], 'a')
 annotation = dict()
 with open(sys.argv[1], 'rb') as file:
-	for i, line in enumerate(file):
-		line_list = line.split('\t')
-		gene = str(line_list[1] + '.v1.2')
-		go_terms = line_list[9]
-		tair10_hit = line_list[10][:-2]
-		tair10_symbol = line_list[11]
-		tair10_defline = line_list[12]
-		annotation[tair10_hit] = gene, go_terms, tair10_symbol, tair10_defline
-		#print tair10_hit, annotation.get(tair10_hit)[0]
+    for i, line in enumerate(file):
+        line_list = line.split('\t')
+	gene = str(line_list[1] + '.v1.2')
+	go_terms = line_list[9]
+	tair10_hit = line_list[10][:-2]
+	tair10_symbol = line_list[11]
+	tair10_defline = line_list[12]
+	annotation[tair10_hit] = gene, go_terms, tair10_symbol, tair10_defline
+	#print tair10_hit, annotation.get(tair10_hit)[0]
 		
-	file.close()
+    file.close()
 
 
 
 
 # read the baySeq files (only one so far)
 with open(sys.argv[2], 'rb') as bS_file:
-	for i, line in enumerate(bS_file):
-		line_list = line.split(',')
-		print line_list[1]
-	bS_file.close()
+    for i, line in enumerate(bS_file):
+	line_list = line.split(',')
+	print line_list[1]
+    bS_file.close()
 
 
 
 # read the list of target genes
 with open(sys.argv[3], 'rb') as parse_file:
-	for i, line in enumerate(parse_file):
-		if i == 0:
-			continue
-		else:
-			line_list = line.split(',')
-			at_gene = line_list[1][:-1]
-			#if at_gene in annotation:
-				#print at_gene, annotation[at_gene][0]
-			#else:
-				#print 'gene not found in subset'
+    for i, line in enumerate(parse_file):
+	if i == 0:
+            continue
+        else:
+            line_list = line.split(',')
+	    at_gene = line_list[1][:-1]
+	    #if at_gene in annotation:
+	        #print at_gene, annotation[at_gene][0]
+            #else:
+		#print 'gene not found in subset'
 
-	parse_file.close()
+    parse_file.close()
 
 
 
