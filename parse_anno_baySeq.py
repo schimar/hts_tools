@@ -1,11 +1,10 @@
 #! /usr/bin/python
 # 
-# This script reads a fasta file (the vsearch output with centroids) and extracts the sample name-cluster number as well as the number of seqs found in this cluster.
+### YET TO BE CHANGED: This script reads a fasta file (the vsearch output with centroids) and extracts the sample name-cluster number as well as the number of seqs found in this cluster.
 # Note that this script can be used for the consensus or paralogs files
 # (paralogs only has one "seqs=" in there, whereas the paralogs file with --id = 0.8 will have "seqs" twice). Simply uncomment the respective lines.
 
-# Usage: ./get_cluster_n_of_seqs.py <input-file_name.fasta> <new_file_name.csv>
-
+# Usage: ./parse_anno_baySeq.py /home/schimar/Desktop/boechera/rna_seq/parse_anno_baySeq/anno_info_sub1000.txt /home/schimar/Desktop/boechera/rna_seq/manuscript/data/apo_setPriors.csv /home/schimar/Desktop/boechera/rna_seq/stress_response_genes_Su2013.csv
 
 import sys
 import re
@@ -34,7 +33,7 @@ with open(sys.argv[1], 'rb') as file:
 with open(sys.argv[2], 'rb') as bS_file:
 	for i, line in enumerate(bS_file):
 		line_list = line.split(',')
-		#print line_list[1]
+		print line_list[1]
 	bS_file.close()
 
 
@@ -47,10 +46,10 @@ with open(sys.argv[3], 'rb') as parse_file:
 		else:
 			line_list = line.split(',')
 			at_gene = line_list[1][:-1]
-			if at_gene in annotation:
-				print at_gene, annotation[at_gene][0]
-			else:
-				print 'gene not found in subset'
+			#if at_gene in annotation:
+				#print at_gene, annotation[at_gene][0]
+			#else:
+				#print 'gene not found in subset'
 
 	parse_file.close()
 
