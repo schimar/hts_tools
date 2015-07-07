@@ -4,7 +4,7 @@
 # Note that this script can be used for the consensus or paralogs files
 # (paralogs only has one "seqs=" in there, whereas the paralogs file with --id = 0.8 will have "seqs" twice). Simply uncomment the respective lines.
 
-# Usage: ./parse_anno_baySeq.py /home/schimar/Desktop/boechera/rna_seq/parse_anno_baySeq/anno_info_sub1000.txt /home/schimar/Desktop/boechera/rna_seq/manuscript/data/apo_setPriors.csv /home/schimar/Desktop/boechera/rna_seq/stress_response_genes_Su2013.csv
+# Usage: ./parse_anno_baySeq.py /home/schimar/Desktop/boechera/rna_seq/parse_anno_baySeq/anno_info_sub1000.txt /home/schimar/Desktop/boechera/rna_seq/manuscript/data/baySeq_out_allModels.csv /home/schimar/Desktop/boechera/rna_seq/stress_response_genes_Su2013.csv
 
 import sys
 import re
@@ -28,12 +28,17 @@ with open(sys.argv[1], 'rb') as file:
 
 
 
-
-# read the baySeq files (only one so far)
+bayS_dict = dict()
+# read the baySeq files 
 with open(sys.argv[2], 'rb') as bS_file:
     for i, line in enumerate(bS_file):
-	line_list = line.split(',')
-	print line_list[1]
+        if i == 0:
+            continue
+        else:
+            line_list = line.split(',')
+            Bstr_gene = line_list[1]
+            bayS_dict[Bstr_gene] = line_list[2:]
+    #print bayS_dict.get(Bstr_gene)
     bS_file.close()
 
 
@@ -46,10 +51,13 @@ with open(sys.argv[3], 'rb') as parse_file:
         else:
             line_list = line.split(',')
 	    at_gene = line_list[1][:-1]
-	    #if at_gene in annotation:
-	        #print at_gene, annotation[at_gene][0]
-            #else:
-		#print 'gene not found in subset'
+	    if at_gene in annotation:
+                if annotation[at_gene][0] in bayS_dict:
+                    print at_gene, annotation[at_gene], bayS_dict[annotation[at_gene][0]][1:3]
+                else:
+                    print '%s is present in the annotation for Bstricta, however was not found in baySeq output' % at_gene
+            else:
+		print '%s not found in the supplied annotation data' %at_gene
 
     parse_file.close()
 
