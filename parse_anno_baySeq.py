@@ -11,6 +11,7 @@ import re
 #import shutil
 #import tempfile
 
+# this is no longer needed, as the baySeq_df has the annotations already.
 #newfile = open(sys.argv[2], 'a')
 #annotation = dict()
 #with open(sys.argv[1], 'rb') as file:
@@ -37,14 +38,11 @@ with open(sys.argv[1], 'rb') as bS_file:
         line_list = line.split('\t')
         tair10hit = line.split('\t')[63][1:-3]
         tair10hit_descr = line.split('\t')[64]
-        print line_list[-1] #tair10hit_descr
         if tair10hit == '':
             no_anno += 1
         else: 
             bayS_dict[tair10hit] = line_list#, 30:31, 34:35, 38:39, 42:43, 46:47, 50, 54:55, 57:59, 62:] 
-            #bayS_dict[tair10hit].pop()
-            #print bayS_dict[tair10hit]
-    #print 'We found %i genes with no A. thaliana annotation' % no_anno
+     #print 'We found %i genes with no A. thaliana annotation' % no_anno
     bS_file.close()
 
 
@@ -57,9 +55,9 @@ with open(sys.argv[2], 'rb') as parse_file:
         else:
             at_gene = line_list[0]#[:-1]
             name = line_list[1]
-            #if at_gene in bayS_dict:
-                #bayS_dict.get(at_gene).append(name)
-                #print bayS_dict.get(at_gene)
+            if at_gene in bayS_dict:
+                bayS_dict.get(at_gene).append(name)
+                print bayS_dict.get(at_gene)
 
     parse_file.close()
 
