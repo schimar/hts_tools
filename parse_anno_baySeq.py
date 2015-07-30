@@ -4,7 +4,7 @@
 # Note that this script can be used for the consensus or paralogs files
 # (paralogs only has one "seqs=" in there, whereas the paralogs file with --id = 0.8 will have "seqs" twice). Simply uncomment the respective lines.
 
-# Usage: ./parse_anno_baySeq.py /home/schimar/Desktop/boechera/rna_seq/parse_anno_baySeq/anno_info_sub1000.txt /home/schimar/Desktop/boechera/rna_seq/manuscript/data/df_baySeq_all_GO.txt /home/schimar/Desktop/boechera/rna_seq/stress_response_genes_Su2013.csv
+# Usage: ./parse_anno_baySeq.py /home/schimar/Desktop/boechera/rna_seq/manuscript/data/df_baySeq_all_GO.txt /home/schimar/Desktop/boechera/rna_seq/stress_response_genes_Su2013.csv
 
 import sys
 import re
@@ -42,7 +42,10 @@ with open(sys.argv[1], 'rb') as bS_file:
             no_anno += 1
         else: 
             bayS_dict[tair10hit] = line_list#, 30:31, 34:35, 38:39, 42:43, 46:47, 50, 54:55, 57:59, 62:] 
-     #print 'We found %i genes with no A. thaliana annotation' % no_anno
+            bayS_dict[tair10hit].pop()
+            bayS_dict[tair10hit].pop(0)
+            #print bayS_dict[tair10hit]
+     #print 'We found %i genes with no A. thaliana annotation' % no_anno # 837 genes without AT annotations
     bS_file.close()
 
 
@@ -51,19 +54,18 @@ with open(sys.argv[2], 'rb') as parse_file:
     for i, line in enumerate(parse_file):
         line_list = line.split(',')
         if line_list[0][0] == '#':
-            continue
+            print line 
         else:
             at_gene = line_list[0]#[:-1]
             name = line_list[1]
             if at_gene in bayS_dict:
-                bayS_dict.get(at_gene).append(name)
-                print bayS_dict.get(at_gene)
-
+                #bayS_dict.get(at_gene).append(name)
+                #print bayS_dict.get(at_gene)
+                print '\t '.join(map(str, bayS_dict.get(at_gene)))
+            else:
+                line_if_not_found = str(at_gene + name + 'not found in dataset')
+                print line_if_not_found
     parse_file.close()
-
-
-
-
 
 
 
