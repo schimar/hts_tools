@@ -12,20 +12,26 @@
 
 import sys
 import re
+import math
 
 
 
 #newfile = open(sys.argv[2], 'a')
 with open(sys.argv[1], 'rb') as file:
+    n_snv = 0
     for line in file:
         if line[0] == '#':
             continue
         else:
             line_list = line.split('\t')
             #print line_list[9]
-            gt_lklhd = line_list[9].split(':')[1]
-            rr, ra, aa = gt_lklhd.split(',')
-            print rr, ra, aa
+            if len(line_list[4]) > 1:
+                continue#print len(line_list[4])
+            else:
+                n_snv += 1
+                gt_lklhd = line_list[9].split(':')[1]
+                rr, ra, aa = gt_lklhd.split(',')
+                print (10^(-10*math.log10(float(rr)))/-10)    #, ra, aa
             #type = line_list[2]
             #gene = re.findall('[A-Z][a-z]+\.[0-9]+s[0-9]+\.v[0-9]+\.[0-9]+', line_list[8])
             #start, end = int(line_list[3]), int(line_list[4])
