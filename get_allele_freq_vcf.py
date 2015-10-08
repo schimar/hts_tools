@@ -22,7 +22,10 @@ with open(sys.argv[1], 'rb') as file:
             continue
         else:
             line_list = line.split('\t')
-            print line_list[0]
+            #print line_list[9]
+            gt_lklhd = line_list[9].split(':')[1]
+            rr, ra, aa = gt_lklhd.split(',')
+            print rr, ra, aa
             #type = line_list[2]
             #gene = re.findall('[A-Z][a-z]+\.[0-9]+s[0-9]+\.v[0-9]+\.[0-9]+', line_list[8])
             #start, end = int(line_list[3]), int(line_list[4])
