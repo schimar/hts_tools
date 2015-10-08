@@ -31,7 +31,7 @@ with open(sys.argv[1], 'rb') as file:
                 n_snv += 1
                 gt_lklhd = line_list[9].split(':')[1]
                 rr, ra, aa = gt_lklhd.split(',')
-                print float(rr), ra, aa#(10^(-10*math.log10(float(rr)))/-10)    #, ra, aa
+                print 10^(rr/-10)    #, ra, aa
             #type = line_list[2]
             #gene = re.findall('[A-Z][a-z]+\.[0-9]+s[0-9]+\.v[0-9]+\.[0-9]+', line_list[8])
             #start, end = int(line_list[3]), int(line_list[4])
