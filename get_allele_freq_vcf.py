@@ -34,7 +34,7 @@ with open(sys.argv[1], 'rb') as file:
                 ra = 10**(ra/-10)
                 aa = 10**(aa/-10)
                 if rr > ra and rr > aa:
-                    print rr, line_list[4], ra, aa
+                    print rr, line_list[4], ra, aa, gt_lklhd
     print n_snv
             #type = line_list[2]
             #gene = re.findall('[A-Z][a-z]+\.[0-9]+s[0-9]+\.v[0-9]+\.[0-9]+', line_list[8])
