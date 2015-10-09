@@ -30,8 +30,12 @@ with open(sys.argv[1], 'rb') as file:
             else:
                 n_snv += 1
                 gt_lklhd = line_list[9].split(':')[1]
-                rr, ra, aa = gt_lklhd.split(',')
-                print 10^(rr/-10)    #, ra, aa
+                rr, ra, aa = map(int, gt_lklhd.split(','))
+                rr = 10**(rr/-10)
+                ra = 10**(ra/-10)
+                aa = 10**(aa/-10)
+                print rr, ra, aa
+    print n_snv
             #type = line_list[2]
             #gene = re.findall('[A-Z][a-z]+\.[0-9]+s[0-9]+\.v[0-9]+\.[0-9]+', line_list[8])
             #start, end = int(line_list[3]), int(line_list[4])
