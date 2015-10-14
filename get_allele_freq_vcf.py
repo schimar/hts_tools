@@ -32,7 +32,8 @@ with open(sys.argv[1], 'rb') as file:
                 rr, ra, aa = map(int, gt_lklhd[1].split(','))
                 cov = int(gt_lklhd[2])
                 prob_F = 10**(int(gt_lklhd[3])/-10)
-                print rr, ra, aa, cov, prob_F
+                af = re.findall('AF1=[0.0-9.0]+', line_list[7])
+                print af, rr, ra, aa, cov, prob_F
                 #print rr, 10**(rr/-10), ra, 10**(ra/-10), aa, 10**(aa/-10), line_list[9]
                 #rr = 10**(rr/-10)
                 #ra = 10**(ra/-10)
