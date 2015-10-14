@@ -30,10 +30,11 @@ with open(sys.argv[1], 'rb') as file:
                 n_snv += 1
                 gt_lklhd = line_list[9].split(':')[1]
                 rr, ra, aa = map(int, gt_lklhd.split(','))
-                rr = 10**(rr/-10)
-                ra = 10**(ra/-10)
-                aa = 10**(aa/-10)
-                print rr, ra, aa
+                print 10**(rr/-10), 10**(ra/-10), 10**(aa/-10)
+                #rr = 10**(rr/-10)
+                #ra = 10**(ra/-10)
+                #aa = 10**(aa/-10)
+                #print rr, ra, aa
                 #if rr > ra and rr > aa:
                     #print rr, line_list[4], ra, aa, gt_lklhd
                 #elif ra > rr and ra > aa:
