@@ -30,7 +30,8 @@ with open(sys.argv[1], 'rb') as file:
                 n_snv += 1
                 gt_lklhd = line_list[9].split(':')[1]
                 rr, ra, aa = map(int, gt_lklhd.split(','))
-                print rr, 10**(rr/-10), ra, 10**(ra/-10), aa, 10**(aa/-10), line_list[9]
+                print gt_lklhd
+                #print rr, 10**(rr/-10), ra, 10**(ra/-10), aa, 10**(aa/-10), line_list[9]
                 #rr = 10**(rr/-10)
                 #ra = 10**(ra/-10)
                 #aa = 10**(aa/-10)
