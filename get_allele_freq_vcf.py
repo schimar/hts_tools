@@ -33,7 +33,7 @@ with open(sys.argv[1], 'rb') as file:
                 cov = int(gt_lklhd[2])
                 prob_F = 10**(int(gt_lklhd[3])/-10)
                 af = re.findall('AF1=[0.0-9.0]+', line_list[7])
-                af = af[0].split('=')[1]
+                af = int(af[0].split('=')[1])
                 rf = 1 - af
                 print rf, af, rr, ra, aa, cov, prob_F
                 #print rr, 10**(rr/-10), ra, 10**(ra/-10), aa, 10**(aa/-10), line_list[9]
