@@ -29,24 +29,18 @@ with open(sys.argv[1], 'rb') as file:
             else:
                 n_snv += 1
                 gt_lklhd = line_list[9].split(':')
+                id = line_list[1]
                 rr, ra, aa = map(int, gt_lklhd[1].split(','))
                 cov = int(gt_lklhd[2])
                 prob_F = 10**(int(gt_lklhd[3])/-10)
                 af = re.findall('AF1=[0.0-9.0]+', line_list[7])
                 af = float(af[0].split('=')[1])
                 rf = 1 - af
-                print rf, af, rr, ra, aa, cov, prob_F
-                #print rr, 10**(rr/-10), ra, 10**(ra/-10), aa, 10**(aa/-10), line_list[9]
-                #rr = 10**(rr/-10)
-                #ra = 10**(ra/-10)
-                #aa = 10**(aa/-10)
-                #print rr, ra, aa
-                #if rr > ra and rr > aa:
-                    #print rr, line_list[4], ra, aa, gt_lklhd
-                #elif ra > rr and ra > aa:
-                    #print ra, line_list[4], rr, aa, gt_lklhd
-                #else: 
-                    #print aa, line_list[4], rr, aa, gt_lklhd
+                rr = 10**(rr/-10)
+                ra = 10**(ra/-10)
+                aa = 10**(aa/-10)
+                print id, rf, af, rr, ra, aa, cov, prob_F
+
     print n_snv
             #type = line_list[2]
             #gene = re.findall('[A-Z][a-z]+\.[0-9]+s[0-9]+\.v[0-9]+\.[0-9]+', line_list[8])
