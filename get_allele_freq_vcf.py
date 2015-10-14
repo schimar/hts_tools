@@ -1,12 +1,8 @@
 #! /usr/bin/python
 
 
-# This script reads through an annototation file (in gff3 format) and 
-# extracts the length of a gene (only for type gene). The output file
-# contains the gene name as well as the length of the given gene. 
-#
-
-# Usage: ./get_gene_length_from_gff3.py <gff3-file-name> <output_file.csv>
+# This script reads through a vcf file and extracts (for each SNV) the SNV id, reference allele frequency, alternative allele frequency, the genotype likelihoods for reference, heterozygote and alternative allele, sequence coverage, and the probability that the genotype call is wrong.
+# Usage: ./ngs_tools/get_allele_freq_vcf.py <variants.vcf>  > allele_freq.txt
 
 
 
@@ -23,9 +19,8 @@ with open(sys.argv[1], 'rb') as file:
             continue
         else:
             line_list = line.split('\t')
-            #print line_list[9]
             if len(line_list[4]) > 1:
-                continue#print len(line_list[4])
+                continue
             else:
                 n_snv += 1
                 gt_lklhd = line_list[9].split(':')
@@ -41,17 +36,6 @@ with open(sys.argv[1], 'rb') as file:
                 aa = 10**(aa/-10)
                 print id, rf, af, rr, ra, aa, cov, prob_F
 
-    print n_snv
-            #type = line_list[2]
-            #gene = re.findall('[A-Z][a-z]+\.[0-9]+s[0-9]+\.v[0-9]+\.[0-9]+', line_list[8])
-            #start, end = int(line_list[3]), int(line_list[4])
-            #length = end - start +1
-            #if type != 'gene':
-                #continue
-            #else:
-             #   newline = str(gene[0] + '\t' + str(length) + '\n')
-             #   newfile.write(newline)
-
+#    print n_snv
     file.close()
-    #newfile.close()
         
