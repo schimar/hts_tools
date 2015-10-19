@@ -20,7 +20,7 @@ with open(sys.argv[1], 'rb') as file:
         elif line[0:2] == '#C':
             header = line.split('\t')
             ind_ids = header[9:len(header)]
-            print ind_ids, len(header)
+            print ind_ids, len(ind_ids)
         else:
             line_list = line.split('\t')
             if len(line_list[4]) > 1:
