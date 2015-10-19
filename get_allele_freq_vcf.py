@@ -20,22 +20,24 @@ with open(sys.argv[1], 'rb') as file:
         elif line[0:2] == '#C':
             header = line.split('\t')
             ind_ids = header[9:len(header)]
-            print ind_ids, len(ind_ids)
         else:
             line_list = line.split('\t')
             if len(line_list[4]) > 1:
                 continue
             else:
                 n_snv += 1
-                gt_lklhd = line_list[9].split(':')
                 id = line_list[1]
-                rr, ra, aa = map(int, gt_lklhd[1].split(','))
-                cov = int(gt_lklhd[2])
-                prob_F = 10**(int(gt_lklhd[3])/-10)
                 af = re.findall('AF1=[0.0-9.0]+', line_list[7])
                 af = float(af[0].split('=')[1])
                 rf = 1 - af
-                rr = 10**(rr/-10)
+                for j, ind in enumerate(ind_ids):
+                    print ind, line_list[j+8]
+                    
+                    gt_lklhd = line_list[9].split(':')
+                rr, ra, aa = map(int, gt_lklhd[1].split(','))
+                cov = int(gt_lklhd[2])
+                prob_F = 10**(int(gt_lklhd[3])/-10)
+                               rr = 10**(rr/-10)
                 ra = 10**(ra/-10)
                 aa = 10**(aa/-10)
                 #print id, rf, af, rr, ra, aa, cov, prob_F
