@@ -19,7 +19,8 @@ with open(sys.argv[1], 'rb') as file:
             continue
         elif line[0:2] == '#C':
             header = line.split('\t')
-            print header, len(header)
+            ind_ids = header[9:len(header)]
+            print ind_ids, len(header)
         else:
             line_list = line.split('\t')
             if len(line_list[4]) > 1:
