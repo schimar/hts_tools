@@ -33,13 +33,13 @@ with open(sys.argv[1], 'rb') as file:
                 for j, ind in enumerate(ind_ids):
                     print ind, line_list[j+8]
                     
-                    gt_lklhd = line_list[9].split(':')
-                rr, ra, aa = map(int, gt_lklhd[1].split(','))
-                cov = int(gt_lklhd[2])
-                prob_F = 10**(int(gt_lklhd[3])/-10)
-                               rr = 10**(rr/-10)
-                ra = 10**(ra/-10)
-                aa = 10**(aa/-10)
+                    #gt_lklhd = line_list[9].split(':')
+                #rr, ra, aa = map(int, gt_lklhd[1].split(','))
+                #cov = int(gt_lklhd[2])
+                #prob_F = 10**(int(gt_lklhd[3])/-10)
+                #               rr = 10**(rr/-10)
+                #ra = 10**(ra/-10)
+                #aa = 10**(aa/-10)
                 #print id, rf, af, rr, ra, aa, cov, prob_F
 
 #    print n_snv
