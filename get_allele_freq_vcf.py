@@ -15,8 +15,11 @@ import re
 with open(sys.argv[1], 'rb') as file:
     n_snv = 0
     for line in file:
-        if line[0] == '#':
+        if line[0:2] == '##':
             continue
+        elif line[0:2] == '#C':
+            header = line.split('\t')
+            print header, len(header)
         else:
             line_list = line.split('\t')
             if len(line_list[4]) > 1:
@@ -34,7 +37,7 @@ with open(sys.argv[1], 'rb') as file:
                 rr = 10**(rr/-10)
                 ra = 10**(ra/-10)
                 aa = 10**(aa/-10)
-                print id, rf, af, rr, ra, aa, cov, prob_F
+                #print id, rf, af, rr, ra, aa, cov, prob_F
 
 #    print n_snv
     file.close()
