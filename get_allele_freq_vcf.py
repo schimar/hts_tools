@@ -36,16 +36,20 @@ with open(sys.argv[1], 'rb') as file:
                 for j, ind in enumerate(ind_ids):
                     #print ind, line_list[j+9]
                     gt_lklhd = line_list[j+9].split(':')
-                    rr, ra, aa = map(int, gt_lklhd[1].split(','))
-                    cov = int(gt_lklhd[2])
+                    rr, ra, aa = gt_lklhd[1].split(',')
+                    cov = gt_lklhd[2]
                     prob_F = 10**(int(gt_lklhd[3])/-10)
-                    ind_line = str(rr + ' ' + ra + ' ' + aa + ' ' + cov + ' ' + prob_F)
+                    ind_line = str(rr + ' ' + ra + ' ' + aa + ' ' + cov + ' ' + str(prob_F))
                     geno_likely[ind] = ind_line
                 #rr = 10**(rr/-10)
                 #ra = 10**(ra/-10)
                 #aa = 10**(aa/-10)
                 #print id, rf, af, rr, ra, aa, cov, prob_F
             print geno_likely.values()
+
+
+
+#rr, ra, aa = map(int, gt_lklhd[1].split(','))
 
 #    print n_snv
     file.close()
