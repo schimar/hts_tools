@@ -20,6 +20,7 @@ with open(sys.argv[1], 'rb') as file:
         elif line[0:2] == '#C':
             header = line.split('\t')
             ind_ids = header[9:len(header)]
+            ind_ids[63]
         else:
             line_list = line.split('\t')
             if len(line_list[4]) > 1:
@@ -31,7 +32,7 @@ with open(sys.argv[1], 'rb') as file:
                 af = float(af[0].split('=')[1])
                 rf = 1 - af
                 for j, ind in enumerate(ind_ids):
-                    print ind, line_list[j+8]
+                    print ind, line_list[j+9]
                     
                     #gt_lklhd = line_list[9].split(':')
                 #rr, ra, aa = map(int, gt_lklhd[1].split(','))
