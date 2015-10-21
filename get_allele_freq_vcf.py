@@ -45,7 +45,7 @@ with open(sys.argv[1], 'rb') as file:
                 #ra = 10**(ra/-10)
                 #aa = 10**(aa/-10)
                 #print id, rf, af, rr, ra, aa, cov, prob_F
-            print id, tuple(geno_likely.values())
+            print id, ', '.join(geno_likely.values())
 
 
 #rr, ra, aa = map(int, gt_lklhd[1].split(','))
