@@ -41,12 +41,8 @@ with open(sys.argv[1], 'rb') as file:
                     prob_F = 10**(int(gt_lklhd[3])/-10)
                     ind_line = str(rr + ' ' + ra + ' ' + aa + ' ' + cov + ' ' + str(prob_F))
                     geno_likely[ind] = ind_line
-                #rr = 10**(rr/-10)
-                #ra = 10**(ra/-10)
-                #aa = 10**(aa/-10)
-                #print id, rf, af, rr, ra, aa, cov, prob_F
-            print id, ', '.join(geno_likely.values())
-
+            print id, ' '.join(geno_likely.values())
+    print ind_ids
 
 #rr, ra, aa = map(int, gt_lklhd[1].split(','))
 
