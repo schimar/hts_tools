@@ -8,7 +8,7 @@ for i in /home/mschilling/Desktop/gbs15/ind/*.sai; do
     #RG=\'@RG'\t'ID:${id}\'
     echo $id
     #bwa aln -t 13 -l 20 -k 2 -I -q 10 -Y -n 5 /home/mschilling/Desktop/gbs15/ref/lasio_contigs.fasta $i -f ${id}.sai
-    bwa samse -n 1 -f ${id}.sam -r "@RG\tID:$id\tLB:$id\tSM:$id\tPL:ILLUMINA" /home/mschilling/Desktop/gbs15/ref/lasio_contigs.fasta $file ${id}.fastq   
+    bwa samse -n 1 -f ${id}.sam -r "@RG\tID:$id\tLB:$id\tSM:$id\tPL:ILLUMINA" /home/mschilling/Desktop/stricta/stricta_assembly/v1.2/assembly/Bstricta_278_v1.fa $file ${id}.fastq   
     #echo $RG      #\'\@RG\\tID:$id\'
 done
 
