@@ -1,15 +1,13 @@
 #! /bin/bash
 # cd /home/mschilling/Desktop/gbs15/scripts_zg/ind/
 
-for i in /home/mschilling/Desktop/gbs15/ind/*.sai; do
-    file=$(echo $i | cut -f7 -d/)
-    id=$(echo $i | cut -f1 -d.)
-    id=$(echo $id | cut -f7 -d/)
+for i in /home/mschilling/Desktop/gbs15/mstr/bwa_out/*.sai; do
+    file=$(echo $i | cut -f8 -d/)
+    id=$(echo $file | cut -f1 -d.)
     #RG=\'@RG'\t'ID:${id}\'
     echo $id
-    #bwa aln -t 13 -l 20 -k 2 -I -q 10 -Y -n 5 /home/mschilling/Desktop/gbs15/ref/lasio_contigs.fasta $i -f ${id}.sai
-    bwa samse -n 1 -f ${id}.sam -r "@RG\tID:$id\tLB:$id\tSM:$id\tPL:ILLUMINA" /home/mschilling/Desktop/stricta/stricta_assembly/v1.2/assembly/Bstricta_278_v1.fa $file ${id}.fastq   
-    #echo $RG      #\'\@RG\\tID:$id\'
+    /home/mschilling/bwa/./bwa samse -n 1 -r "@RG\tID:$id\tLB:$id\tSM:$id\tPL:ILLUMINA" /home/mschilling/Desktop/stricta/stricta_assembly/v1.2/assembly/Bstricta_278_v1.fa $file /home/mschilling/Desktop/gbs15/mstr/${id}.fastq -f ${id}.sam  
+    #echo $file $id  #\'\@RG\\tID:$id\'
 done
 
 # \'\@RG\tID:cmac-"."$ind"."\'
