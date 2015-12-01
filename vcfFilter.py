@@ -6,7 +6,7 @@
 
 
 import sys
-#import re
+import re
 import shutil
 #import tempfile
 
