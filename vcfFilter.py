@@ -1,9 +1,11 @@
 #! /usr/bin/python
 # 
-# This script reads a fasta file (the vsearch output with centroids) and writes a new file where all the sequences with less than 70 reads have been discarded. 
-
-# Usage: ./exclude_short_seqs.py <input-file_name.fasta> <new_file_name.fasta>
-
+# This script filters a vcf file based on overall sequence coverage, number of
+# non-reference reads, number of alleles, and reverse orientation reads.  
+# See below for default values, and to change them, if necessary. Additionally,
+# note that currently, the number of retained loci is being written at the end
+# of the file. 
+# Usage: ./vcfFilter.py <variant file>.vcf
 
 import sys
 import re
@@ -17,19 +19,20 @@ notFixed = 1.0 # removes loci fixed for alt; AF
 mapQual = 30 # minimum mapping quality
 
 
-#newfile = open(sys.argv[2], 'a')
+n_seqs_retained = int()
 with open(sys.argv[1], 'rb') as file:
-    for line in enumerate(file):
+    for line in file:
         if line[0] == '#':
             continue
             #print line
         else:
-            #dp = re.findall('DP=[0-9]+', line)[0].split('=')[1]
-            #ac = re.findall('AC=[0-9]+', line)[0].split('=')[1]
-            #af = re.findall('AF=[0-9]+', line)[0].split('=')[1]
-            #mq = re.findall('MQ=[0-9]+', line)[0].split('=')[1]
-            print type(line) #dp, ac, af, mq
+            dp = int(re.findall('DP=[0-9]+', line)[0].split('=')[1])
+            ac = int(re.findall('AC=[0-9]+', line)[0].split('=')[1])
+            af = float(re.findall('AF=[0-9]+', line)[0].split('=')[1])
+            mq = int(re.findall('MQ=[0-9]+', line)[0].split('=')[1])
+            if (dp >= minCoverage and ac >= minAltRds and af != notFixed and mq >= mapQual):
+                print line
+                n_seqs_retained += 1
     file.close()
-    #newfile.close()
 
-
+print '#Retained %i variable loci' % n_seqs_retained
