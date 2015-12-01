@@ -24,11 +24,11 @@ with open(sys.argv[1], 'rb') as file:
             continue
             #print line
         else:
-            #dp = re.findall('DP=[0-9]+', line)[0].split('=')[1]
+            dp = re.findall('DP=[0-9]+', line)[0].split('=')[1]
             #ac = re.findall('AC=[0-9]+', line)[0].split('=')[1]
             #af = re.findall('AF=[0-9]+', line)[0].split('=')[1]
             #mq = re.findall('MQ=[0-9]+', line)[0].split('=')[1]
-            print line #dp, ac, af, mq
+            print dp#, ac, af, mq
     file.close()
     #newfile.close()
 
