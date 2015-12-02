@@ -5,7 +5,7 @@
 # See below for default values, and to change them, if necessary. Additionally,
 # note that currently, the number of retained loci is being written at the end
 # of the file. 
-# Usage: ./vcfFilter.py <variant file>.vcf
+# Usage: ./vcfFilter.py <variant file>.vcf > outfile.vcf
 
 import sys
 import re
