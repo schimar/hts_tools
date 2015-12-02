@@ -23,15 +23,14 @@ n_seqs_retained = int()
 with open(sys.argv[1], 'rb') as file:
     for line in file:
         if line[0] == '#':
-            continue
-            #print line
+            print line.split('\n')[0]
         else:
             dp = int(re.findall('DP=[0-9]+', line)[0].split('=')[1])
             ac = int(re.findall('AC=[0-9]+', line)[0].split('=')[1])
             af = float(re.findall('AF=[0-9]+', line)[0].split('=')[1])
             mq = int(re.findall('MQ=[0-9]+', line)[0].split('=')[1])
             if (dp >= minCoverage and ac >= minAltRds and af != notFixed and mq >= mapQual):
-                print line
+                print line.split('\n')[0]
                 n_seqs_retained += 1
     file.close()
 
