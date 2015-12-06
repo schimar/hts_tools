@@ -34,7 +34,7 @@ foreach my $in (@ARGV){
 		if (m/^#CHROM/ & ($first == 1)){
 			@line = split(m/\s+/, $_);	
 			foreach $word (@line){
-				if ($word =~ m/[A-Z]+_[A-Z0-9]+_[DTN]/){
+				if ($word =~ m/[A-Za-z0-9_]+/){
 					push (@inds, $word);
 					$nind++;
 				}
