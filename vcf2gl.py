@@ -1,9 +1,15 @@
 #! /usr/bin/python
 
 
-# This script reads through a vcf file and extracts (for each SNV) the SNV id, reference allele frequency, alternative allele frequency, the genotype likelihoods for reference, heterozygote and alternative allele, sequence coverage, and the probability that the genotype call is wrong.
-# Usage: ./ngs_tools/get_allele_freq_vcf.py <variants.vcf>  > allele_freq.txt
-
+# This scripts converts a vcf file to a simpler format for downstream analyses.
+# Zach Gompert is calling this format genotype likelihood (gl). The first line
+# lists the number of individuals and loci. The next line has individual ids.
+# This is followed by one line per SNP that gives the SNP id (scaffold,
+# position) and the phred-scaled genotype likelihoods, three per individual.
+# A separate file with the allele frequency for each locus is being written. 
+# This version does not yet include a filter for maf. 
+#
+# Usage: ./vcf2gl.py filtered vcf file.vcf allele_freqs.txt > outfile.gl
 
 
 import sys
@@ -41,7 +47,6 @@ with open(sys.argv[1], 'rb') as file:
                 af_line = str(snv_id + ' ' + str(af) + '\n')
                 af_file.write(af_line)
                 for j, ind in enumerate(ind_ids):
-                    ind_line = str()
                     if line_list[j+9][0:3] == './.':
                         rr, ra, aa = map(str,[0, 0, 0])
                         ind_line = str(rr + ' ' + ra + ' ' + aa)
@@ -61,7 +66,7 @@ with open(sys.argv[1], 'rb') as file:
     file.close()
     af_file.close()
 
-print n_ind, n_snv, n_no_num, n_num
+print n_ind, n_snv #, n_no_num, n_num
 print ' '.join(map(str, ind_ids))
 it = iter(sorted(line_dict.iteritems()))
 for key, value in it:
