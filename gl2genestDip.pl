@@ -49,8 +49,8 @@ while (<IN>){
 		}
 		$gest += $i * $gl[$i];
 	    }
-	      	$gest = sprintf("%.5f",$gest);
-                $goodcnt++;
+	    $gest = sprintf("%.5f",$gest);
+            $goodcnt++;
 	    
             push(@gest, $gest);
 	}
