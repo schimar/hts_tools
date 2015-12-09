@@ -49,15 +49,10 @@ while (<IN>){
 		}
 		$gest += $i * $gl[$i];
 	    }
-	    if($maxgprob >= 0.9){
-	    	$gest = sprintf("%.5f",$gest);
+	      	$gest = sprintf("%.5f",$gest);
                 $goodcnt++;
-	    }
-            else{
-		$gest = 'NA';
-                $nacnt++;
-            }
-	    push(@gest, $gest);
+	    
+            push(@gest, $gest);
 	}
 	$gest = join(" ",@gest);
 	print OUT "$gest\n";
