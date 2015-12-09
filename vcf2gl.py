@@ -9,7 +9,7 @@
 # A separate file with the allele frequency for each locus is being written. 
 # This version does not yet include a filter for maf. 
 #
-# Usage: ./vcf2gl.py filtered vcf file.vcf allele_freqs.txt > outfile.gl
+# Usage: ./vcf2gl.py filtered_vcf_file.vcf ref_allele_freqs.txt alt_allele_freqs.txt > outfile.gl
 
 
 import sys
@@ -17,7 +17,9 @@ import re
 from collections import OrderedDict
 
 
-af_file = open(sys.argv[2], 'a')
+rf_file = open(sys.argv[2], 'a')
+af_file = open(sys.argv[3], 'a')
+
 with open(sys.argv[1], 'rb') as file:
     n_snv = 0
     n_no_num = 0
@@ -46,25 +48,26 @@ with open(sys.argv[1], 'rb') as file:
                 rf = 1 - af
                 af_line = str(snv_id + ' ' + str(af) + '\n')
                 af_file.write(af_line)
+                rf_line = str(snv_id + ' ' + str(rf) + '\n')
+                rf_file.write(rf_line)
                 for j, ind in enumerate(ind_ids):
                     if line_list[j+9][0:3] == './.':
                         rr, ra, aa = map(str,[0, 0, 0])
                         ind_line = str(rr + ' ' + ra + ' ' + aa)
                         n_no_num += 1
                         geno_likely[ind] = ind_line
-                        #print ind, rr, ra, aa
                     else:
                         n_num += 1
                         gt_lklhd = line_list[j+9].split(':')
                         lklhd = gt_lklhd[4].split('\n')[0]
                         rr, ra, aa = lklhd.split(',')
-                        #print ind, rr, ra, aa
                         ind_line = str(rr + ' ' + ra + ' ' + aa)
                         geno_likely[ind] = ind_line
-                        #print ind_line
                     line_dict[snv_id] = ' '.join(geno_likely.values())
     file.close()
     af_file.close()
+    rf_file.close()
+
 
 print n_ind, n_snv #, n_no_num, n_num
 print ' '.join(map(str, ind_ids))
