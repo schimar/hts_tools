@@ -25,6 +25,8 @@ with open(sys.argv[1], 'rb') as file:
             print line
         elif line[0] == "C":
             inds = line.split(' ')
+        else: 
+            continue
     print inds
         
         
