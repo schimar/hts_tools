@@ -1,5 +1,5 @@
 #! /bin/bash
-# cd /home/mschilling/Desktop/gbs15/scripts_zg/ind/
+# cd /home/mschilling/Desktop/gbs15/mstr/bwa_out/
 
 for i in /home/mschilling/Desktop/gbs15/mstr/bwa_out/*.sai; do
     file=$(echo $i | cut -f8 -d/)

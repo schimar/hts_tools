@@ -1,5 +1,5 @@
 #! /bin/bash
-# cd /home/mschilling/Desktop/gbs15/scripts_zg/ind/
+# cd /home/mschilling/Desktop/gbs15/mstr/
 
 for i in /home/mschilling/Desktop/gbs15/mstr/*.fastq; do
     file=$(echo $i | cut -f7 -d/)
@@ -7,7 +7,7 @@ for i in /home/mschilling/Desktop/gbs15/mstr/*.fastq; do
     id=$(echo $id | cut -f7 -d/)
     RG=${variable}'@RG:\tID:'${id}
     # we will use a newer version of bwa (v 0.7.12-r1044)
-    /home/mschilling/bwa/./bwa aln -t 12 -l 20 -k 2 -I -q 10 -Y -n 5 /home/mschilling/Desktop/stricta/stricta_assembly/v1.2/assembly/Bstricta_278_v1.fa $i -f ${id}.sai
+    /home/mschilling/bwa/./bwa aln -t 8 -l 20 -k 2 -q 10 -Y -n 5 /home/mschilling/Desktop/stricta/stricta_assembly/v1.2/assembly/Bstricta_278_v1.fa $i -f ${id}.sai
     #bwa samse -n 1 -r "'$RG'" /home/mschilling/Desktop/gbs15/ref/lasio_contigs.fasta ${id}.sai -f ${id}.sam    
     echo $id
 
