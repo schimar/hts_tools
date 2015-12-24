@@ -28,7 +28,7 @@ with open(sys.argv[1], 'rb') as file:
             dp = int(re.findall('DP=[0-9]+', line)[0].split('=')[1])
             ac = int(re.findall('AC=[0-9]+', line)[0].split('=')[1])
             af = float(re.findall('AF=[0.0-9.0]+', line)[0].split('=')[1])
-            mq = int(re.findall('MQ=[0.0-9.0]+', line)[0].split('=')[1])
+            mq = float(re.findall('MQ=[0.0-9.0]+', line)[0].split('=')[1])
             if (dp >= minCoverage and ac >= minAltRds and af != notFixed and mq >= mapQual):
                 print line.split('\n')[0]
                 n_seqs_retained += 1
