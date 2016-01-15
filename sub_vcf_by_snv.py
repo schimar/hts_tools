@@ -25,3 +25,4 @@ with open(sys.argv[1], 'rb') as file:
                 else:
                     continue
             old_scaf, old_bp = scaf, bp
+    file.close()
