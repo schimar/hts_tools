@@ -3,15 +3,15 @@
 # This script reads through a vcf, its corresponding genotype likelihood file, and the respective mean genotype likelihood file.
 # It writes a nexus file for all individuals and the given genotypes. Currently, for heterozygotes, it prints the alternative allele (I'd like to include the "ambiguified" version eventually).
 
-# Usage: ~/vcf2phy.py fltrd_pubRetStri_dipUG35_unlnkd.vcf pntest_pubRetStriUG_unlnkd.txt pubRetStriUG_unlnkd.gl #ambig=T
+# Usage: ~/vcf2nex.py fltrd_pubRetStri_dipUG35_unlnkd.vcf pntest_pubRetStriUG_unlnkd.txt pubRetStriUG_unlnkd.gl #ambig=T
 
 
 from sys import argv
-
+import random
 
 #
 
-#ambiUse = argv[4].split('=')[1] # 'ambig=T' for use of ambiguity code when heterozygous; F otherwise
+ambiUse = argv[4].split('=')[1] # 'ambig=T' for use of ambiguity code when heterozygous; F otherwise
 
 
 def Ambiguifier(bases):
@@ -41,10 +41,13 @@ with open(argv[1], 'rb') as vcf_file:
             ref = line_list[3]
             alt = line_list[4]
             if len(alt.split(',')) > 1:
-                ambiguous = line_list[4].split(',')
-                ambiguous = ''.join(ambiguous)
-                refp_dict[scafPos] = ref, Ambiguifier(ambiguous)
+                continue
             else:
+                #if len(alt.split(',')) > 1:
+                #    ambiguous = line_list[4].split(',')
+                #    ambiguous = ''.join(ambiguous)
+                #    refp_dict[scafPos] = ref, Ambiguifier(ambiguous)
+                #else:
                 refp_dict[scafPos] = ref, alt
     vcf_file.close()
 
@@ -58,6 +61,7 @@ with open(argv[3], 'rb') as gl_file:
         else:
             scafPos_gl.append(line.split(' ')[0])
 
+
 # read the file with mean genotypes
 with open(argv[2], 'rb') as mean_gt_file:
     ind_dict = dict()
@@ -70,18 +74,19 @@ with open(argv[2], 'rb') as mean_gt_file:
             else:
                 ind_dict[ind].append(float(gt_line[i]))
 
+
 # parse the mean genotypes and write the proper bases
 for key, value in ind_dict.iteritems():
     newline = list()
     for i, pos in enumerate(scafPos_gl):
-        #print i, pos, refp_dict[pos], value[i]
         if round(float(value[i])) == 0.0:
             newline.append(refp_dict[pos][0])
-            #print value[i], refp_dict[pos], refp_dict[pos][0]
-        #    print key, value[i]
         elif round(float(value[i])) == 1.0:
-            # ambiguity codes!!
-            newline.append(refp_dict[pos][1])
+            # ambiguity codes
+            if ambiUse == 'T':
+                newline.append(Ambiguifier(refp_dict[pos]))
+            else:
+                newline.append(random.sample(refp_dict[pos], 1)[0])
             #print key, value[i]
             #print value[i], refp_dict[pos], refp_dict[pos][1]
         elif round(float(value[i])) == 2.0:
