@@ -3,7 +3,7 @@
 # This script reads through a vcf, its corresponding genotype likelihood file, and the respective mean genotype likelihood file.
 # It writes a nexus file for all individuals and the given genotypes. Currently, for heterozygotes, it prints the alternative allele (I'd like to include the "ambiguified" version eventually).
 
-# Usage: ~/vcf2nex.py fltrd_pubRetStri_dipUG35_unlnkd.vcf pntest_pubRetStriUG_unlnkd.txt pubRetStriUG_unlnkd.gl #ambig=T
+# Usage: ~/vcf2nex.py fltrd_pubRetStri_dipUG35_unlnkd.vcf pntest_pubRetStriUG_unlnkd.txt pubRetStriUG_unlnkd.gl ambig=T
 
 
 from sys import argv
@@ -32,6 +32,7 @@ with open(argv[1], 'rb') as vcf_file:
             continue
         elif line[0:2] == '#C':
             ind_id = line.split('\t')[9:]
+            ind_id[len(ind_id)-1] = ind_id[len(ind_id)-1].split('\n')[0]
         else:
             scafPos = list()
             line_list = line.split('\t')
