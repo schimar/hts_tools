@@ -14,8 +14,8 @@ with open(argv[2], 'rb') as pop_file:
         ind, pop = line.split(' ')
         pops[ind] = pop.split('\n')[0]
 
-for key, value in pops.iteritems():
-    print value
+#for key, value in pops.iteritems():
+#    print value
 
 
 with open(argv[1], 'rb') as file:

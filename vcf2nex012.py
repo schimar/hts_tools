@@ -1,9 +1,8 @@
 #!/usr/bin/python
 
-# This script reads through a vcf, its corresponding genotype likelihood file, and the respective mean genotype likelihood file.
-# It writes a nexus file for all individuals and the given genotypes. Currently, for heterozygotes, it prints the alternative allele (I'd like to include the "ambiguified" version eventually).
+# This script reads through a enotype likelihood file and the respective mean genotype likelihood file. It writes a nexus file for all individuals and the given genotypesi, with '0' for ref homozygote, '1' for heterozygote, and '2' for alt homozygote.
 
-# Usage: ~/vcf2nex.py pubRetStriUG_unlnkd.gl ambig=T pntest_pubRetStriUG_unlnkd.txt
+# Usage: ~/vcf2nex012.py pubRetStriUG_unlnkd.gl pntest_pubRetStriUG_unlnkd.txt
 
 
 from sys import argv
