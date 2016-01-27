@@ -1,31 +1,22 @@
 #! /usr/bin/python
 
 
-# This scripts reads a vcf file and a file with individuals to be selected (one sample id per line).
-# The output is a vcf file with only the selected individuals.
+# This scripts reads a vcf file and second file containing sample id and population (or species; space-delimited), splits individuals by population and finally writes new vcf files for each population. Note that the #CHROM POS... line does not contain the sample ids. These will be printed to the screen for each population, and have to inserted to the respective file and line.
 #
-# Usage: ./sub_vcf.py <vcf_file> <select ids file> > outfile.vcf
+# Usage: ~/hts_tools/splitPops.py fltrd_puReSt_UG35noHyb_200bp.vcf pop_info_spec_noX.csv
 
 
 import sys
 #import re
-import fileinput as fi
+#import fileinput as fi    # maybe eventually use this
+
+
 
 def vcf_ify(name):
     """Take a variable and attach ".vcf" to its end"""
     name = str(name)
     new = str('fltrd_200bp' + name + '.vcf')
     print new
-
-#def split_line_per_pop(line_list, inds):
-#    """Read a data line in a vcf file and a list of individuals to create separate lists (for each population/species), containing the first 9 objects (CHROM POS ID etx.) and each individual's data entry for the given population/species"""
-#    chromPos = line_list[0:9]
-#    geno = line_list[9:len(line_list)]
-#    for i, ind in enumerate(inds):
-#        continue
-
-
-
 
 
 # read the pop_spec file (ind, pop/species; space-separated)
@@ -83,13 +74,16 @@ with open(sys.argv[1], 'rb') as file:
     for line in file:
 #       new_line = list()
         if line[0:2] == '##':
-            #print line.split('\n')[0]
-            continue
+            for name in pop_list:
+                file_list[name].write(line)
+                #print line.split('\n')[0]
         elif line[0:2] == '#C':
             line_list = line.split('\n')[0].split('\t')
             chromPos = line_list[0:9]
             inds = line_list[9:len(line_list)]
-
+            chrom_line = str('\t'.join(chromPos) + '\n')
+            for name in pop_list:
+                file_list[name].write(chrom_line)
         else:
             line_list = line.split('\n')[0].split('\t')
             pre_line = line_list[0:9]
@@ -117,52 +111,15 @@ with open(sys.argv[1], 'rb') as file:
                             post = '\t'.join(value[1:])
                             full = str(pre + '\t' + post + '\n')
                             file_list[key].write(full)
-                            print key, full #key, len(value[1:]), pre, post
-                        for key, value in vcf_inds.iteritems():
-                            print key, value
-
-
-
-                            #print spec_sam, spec_dict[spec_sam], len(spec_dict[spec_sam]) - 1, len(ind_dict[spec_sam]), sample
-#                   for key, value in spec_dict.iteritems():
-#                       if len(value) == len(ind_dict[spec_sam]):
-#                           print key, value, len(value), len(ind_dict[spec_sam])
-#                       else:
-#                           continue
-
-
-
-
-                break # will only run for the first data line
-
-
-                        #print spec_sam, spec_dict[spec_sam]
-                    #print len(spec_dict[spec_sam])#, len(ind_dict[spec_dict[spec_sam]])
-                        #    print 'reached length'
-                        #else:
-                        #    continue
-#                   cleanline = str('\t'.join(spec_dict[spec_sam]) + '\n')
-                #print inds, cleanline#len(cleanline), len(spec_dict[spec_sam]) -9 #, cleanline
-                    #file_list[spec_sam].write(cleanline)
-                #print cleanline#, newline[spec_sam]
-
-    #print spec_sam, spec_dict['stricta'], len(spec_dict['stricta'])
-
-
-#for key, value in newline.iteritems():
-#    print key, value
-
-
-    #for i, ind in enumerate(inds):    # loop through a list of all pop_dict[ind] (species)
-                #print ind, pop_dict[ind], geno[i]
-                #continue
-#for key, value in newline.iteritems():
-#    print key, value
-
-
-
-
+                            #print key, full #key, len(value[1:]), pre, post
+                    else:
+                        continue
+                #break # will only run for the first data line
     file.close()
+
+
+for key, value in vcf_inds.iteritems():
+    print key, '\t'.join(value)
 
 # close all species/pop-specific files
 for name in pop_list:
