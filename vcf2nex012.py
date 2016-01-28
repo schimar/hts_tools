@@ -13,7 +13,7 @@ from sys import argv
 with open(argv[1], 'rb') as gl_file:
     scafPos_gl = list()
     for line in gl_file:
-        if line.split(' ')[0] == '79':
+        if line.split(' ')[0] == '65':
             continue
         elif line.split(' ')[0] == 'CR1043':
             ind_id = line.split(' ')

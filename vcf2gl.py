@@ -6,8 +6,8 @@
 # lists the number of individuals and loci. The next line has individual ids.
 # This is followed by one line per SNP that gives the SNP id (scaffold,
 # position) and the phred-scaled genotype likelihoods, three per individual.
-# A separate file with the allele frequency for each locus is being written. 
-# This version does not yet include a filter for maf. 
+# A separate file with the allele frequency for each locus is being written.
+# This version does not yet include a filter for maf.
 #
 # Usage: ./vcf2gl.py filtered_vcf_file.vcf ref_allele_freqs.txt alt_allele_freqs.txt > outfile.gl
 
@@ -29,9 +29,9 @@ with open(sys.argv[1], 'rb') as file:
         if line[0:2] == '##':
             continue
         elif line[0:2] == '#C':
-            header = line.split('\t')
+            header = line.split('\n')[0].split('\t')
             ind_ids = header[9:len(header)]
-            ind_ids[len(ind_ids)-1] = ind_ids[len(ind_ids)-1].split('\n')[0]
+            #print line, header, ind_ids
         else:
             line_list = line.split('\t')
             if len(line_list[4]) > 1:

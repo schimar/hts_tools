@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
-# This script reads through a vcf, its corresponding genotype likelihood file, and the respective mean genotype likelihood file.
-# It writes a nexus file for all individuals and the given genotypes. Currently, for heterozygotes, it prints the alternative allele (I'd like to include the "ambiguified" version eventually).
+# This script reads through a vcf, its corresponding genotype likelihood file, and the respective mean genotype likelihood file. It writes a nexus file for all individuals and the given genotypes.
+# If ambig=T, then it will print the IUPAC ambiguity code for the respective diploid genotype; if ambig=F, it will choose one of the two alleles at random.
 
-# Usage: ~/vcf2nex.py fltrd_pubRetStri_dipUG35_unlnkd.vcf pntest_pubRetStriUG_unlnkd.txt pubRetStriUG_unlnkd.gl ambig=T
+# Usage: ~/vcf2nex.py fltrd_pubRetStri_dipUG35_unlnkd.vcf pntest_pubRetStriUG_unlnkd.txt pubRetStriUG_unlnkd.gl ambig=T > outfile.nex
 
 
 from sys import argv
@@ -57,7 +57,7 @@ with open(argv[1], 'rb') as vcf_file:
 with open(argv[3], 'rb') as gl_file:
     scafPos_gl = list()
     for line in gl_file:
-        if line.split(' ')[0] == '79' or line.split(' ')[0] == 'CR1043':
+        if line.split(' ')[0] == '65' or line.split(' ')[0] == 'CR1043':
             continue
         else:
             scafPos_gl.append(line.split(' ')[0])
