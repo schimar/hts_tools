@@ -7,7 +7,7 @@ cd /home/mschilling/x_app/console/
 for i in {2..16}; do
 	echo 'meh', $i
 	ls
-	./entropy 	
+	./structure 	
 	
 	
 	
