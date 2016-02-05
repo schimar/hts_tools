@@ -7,18 +7,10 @@ cd /home/mschilling/x_app/console/
 for i in {2..16}; do
 	echo $i
 	ls
-	./structure -i ~/Desktop/boechera/msatsSNV/puReSt/msats/msats_prs_diploids_BF19dpldzd_numIND.csv -k $i -o ~/Desktop/boechera/msatsSNV/puReSt/msats/structure/k{$i}_out_c1
+	./structure -i ~/Desktop/boechera/msatsSNV/puReSt/msats/msats_prs_diploids_BF19dpldzd_numIND.csv -k $i -o ~/Desktop/boechera/msatsSNV/puReSt/msats/structure/k${i}_out_c2
 
 	
-	
-#   file=$(echo $i | cut -f7 -d/)
-#   id=$(echo $i | cut -f1 -d.)
-#   id=$(echo $id | cut -f7 -d/)
-#   RG=${variable}'@RG:\tID:'${id}
-#   # we will use a newer version of bwa (v 0.7.12-r1044)
-#   /home/mschilling/bwa/./bwa aln -t 14 -l 20 -k 2 -q 10 -Y -n 5 /home/mschilling/Desktop/stricta/stricta_assembly/v1.2/assembly/Bstricta_278_v1.fa $i -f ${id}.sai
-#   #bwa samse -n 1 -r "'$RG'" /home/mschilling/Desktop/gbs15/ref/lasio_contigs.fasta ${id}.sai -f ${id}.sam    
-#   echo $id
+
 
 done
 
