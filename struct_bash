@@ -1,12 +1,12 @@
 #! /bin/bash
 # cd /home/mschilling/Desktop/gbs15/mstr/
 # ~/Desktop/boechera/msatsSNV/puReSt/msats
-#cd ~/x_app/console/
+cd /home/mschilling/x_app/console/
 
 for i in {2..16}; do
 	echo 'meh', $i
 
-	~/x_app/console/entropy 	
+	./entropy 	
 	
 	
 	
