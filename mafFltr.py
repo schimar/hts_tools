@@ -38,7 +38,7 @@ with open(argv[1], 'rb') as file:
                             allele_list[1] += 1
                         else:
                             allele_list[1] += 2
-                maf = min(allele_list)/(min(allele_list) + max(allele_list))
+                maf = min(allele_list)/(sum(allele_list))
                 if maf >= maf_th:
                     print line.split('\n')[0]
                 else:
