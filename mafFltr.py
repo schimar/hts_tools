@@ -1,6 +1,6 @@
 #! /usr/bin/python
 #
-# This script filters a vcf file based on minor allele frequency (MAF), where a MAF-threshold has to be supplied as a command line argument. Note that this script can easily be modified to parse for rare variants by changing the sign on line 42 (change '>=' to '<').
+# This script filters a vcf file based on minor allele frequency (MAF), where a MAF-threshold has to be supplied as a command line argument. Note that this script can easily be modified to parse for rare variants by changing the sign on line 42 (change '>=' to '<'). Additionally, note that variants with more than alternative allele will be removed, if present.
 
 # Usage: ~/hts_tools/mafFltr.py fltrd80lasio161dip.vcf 0.05 > out.vcf
 
