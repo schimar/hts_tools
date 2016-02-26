@@ -5,7 +5,6 @@
 
 ## USAGE:  ~/hts_tools/gl2genestDip.py file.gl af_file.txt
 
-# Usage: ~/hts_tools/get_cov_per_ind.py fltrd_pubRetStri_dipUG35_200bp.vcf > outfile
 from __future__ import division
 
 from sys import argv
