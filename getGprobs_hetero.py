@@ -17,7 +17,7 @@ with open(sys.argv[1], 'rb') as file:
             gprobs = line_spl[1:len(line_spl)]
             for gt in gprobs:
                 gtr = round(float(gt))
-                if gtr == 2.0:
+                if gtr == 1.0:
                     n_hets += 1
                 else:
                     continue
