@@ -27,7 +27,7 @@ with open(argv[2], 'rb') as freq_file:
 
 with open(argv[1], 'rb') as file:
     for i, line in enumerate(file):
-        if line[0:3] == '79 ':     # hard-coded, change as needed (the first 3 characters of line 1)
+        if line.split('\n')[0] == '356 33703':     # hard-coded, change as needed (the first 3 characters of line 1)
             continue
         elif line[0:2] == 'CR':    # hard-coded, change as needed (the first two letters of line 2 (individuals)
             inds = line.split('\n')[0].split(' ')

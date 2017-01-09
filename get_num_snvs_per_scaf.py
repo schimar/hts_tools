@@ -12,7 +12,7 @@ with open(argv[1], 'rb') as gl_file:
     scafNum = dict()
     old_scaf = str()
     for line in gl_file:
-        if line.split(' ')[0] == '79' or line.split(' ')[0] == 'CR1043': # watch out, hard-coded!
+        if line.split(' ')[0] == '107' or line.split(' ')[0] == 'MS444': # watch out, hard-coded!
             continue
         else:
             scaf_bp = line.split(' ')[0]

@@ -18,8 +18,9 @@ foreach $in (@ARGV){
     open (IN, $in) or die;
     while (<IN>){
 	chomp;
-	if (/^\@([A-Z0-9]+)/){
-	    $id = $1;
+#	if (/^\@([A-Z0-9]+\-[a-z0-9]+\-[0-9]+[_a-z]+)/){
+        if (/^\@([A-Z0-9-a-z_]+)/){
+        $id = $1;
 	    s/ \-\- /\-/;
 	    if (defined $files{$id}){
 		$flag = 1;

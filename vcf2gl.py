@@ -40,7 +40,8 @@ with open(sys.argv[1], 'rb') as file:
                 geno_likely = OrderedDict()
                 n_snv += 1
                 n_ind = len(ind_ids)
-                scaffold = line_list[0].split('d')[1]
+                scaffold = line_list[0].split('d')[1]   # if "ScaffoldXXX"
+                #scaffold = line_list[0].split('-')[1]    # if vsearch
                 pos = line_list[1]
                 snv_id = ':'.join([scaffold, pos])
                 af = re.findall('AF=[0.0-9.0a-z\-]+', line_list[7])

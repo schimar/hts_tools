@@ -7,4 +7,5 @@ for i in centroids*; do
     ./exclude_short_seqs.py $i sub_$i 
 done  
 
+rsync -avz sub_centroids* subc/
 # 

@@ -1,12 +1,12 @@
 #! /bin/bash
 # cd /home/mschilling/Desktop/gbs15/mstr/bwa_out/
 
-for i in /home/mschilling/Desktop/gbs15/mstr/bwa_out/*.sai; do
-    file=$(echo $i | cut -f8 -d/)
+for i in ~/Desktop/boechera/data/gbs16/ind_fq/bwa_out/*.sai; do
+    file=$(echo $i | cut -f10 -d/)
     id=$(echo $file | cut -f1 -d.)
     #RG=\'@RG'\t'ID:${id}\'
     echo $id
-    /home/mschilling/bwa/./bwa samse -n 1 -r "@RG\tID:$id\tLB:$id\tSM:$id\tPL:ILLUMINA" /home/mschilling/Desktop/stricta/stricta_assembly/v1.2/assembly/Bstricta_278_v1.fa $file /home/mschilling/Desktop/gbs15/mstr/${id}.fastq -f ${id}.sam  
+    ~/bwa/bwa samse -n 1 -r "@RG\tID:$id\tLB:$id\tSM:$id\tPL:ILLUMINA" ~/Desktop/stricta/stricta_assembly/v1.2/assembly/Bstricta_278_v1.fa $file ~/Desktop/boechera/data/gbs16/ind_fq/${id}.fastq -f ${id}.sam  
     #echo $file $id  #\'\@RG\\tID:$id\'
 done
 

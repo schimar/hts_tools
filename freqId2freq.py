@@ -1,6 +1,6 @@
 #! /usr/bin/python
 #
-# This script reads
+# This script reads the output of estpEM and simply writes a file with only the freq estimates.
 
 # Usage: ./
 
