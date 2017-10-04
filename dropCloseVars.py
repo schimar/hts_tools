@@ -47,13 +47,15 @@ for i in range(lc):
             keep.append(1)
             #print i, scaf[i], pos[i], scaf[i+1], pos[i+1], scaf[i-1], pos[i-1], keep[i]
 
+#print len(keep), keep.count(0), keep.count(1)
 
 with open(sys.argv[2], 'rb') as vcfile:
     for i, line in enumerate(vcfile):
         if line[0] == '#':
             print line.split('\n')[0]
         else:
-            if keep[i] == 1:
+            j = i - 828
+            if keep[j] == 1:
                 print line.split('\n')[0]
             else:
                 continue
