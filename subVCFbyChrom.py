@@ -13,22 +13,15 @@ tChrom = argv[2]        # target chromosome to be kept
 with open(argv[1], 'rb') as vcfile:
     for line in vcfile:
         if line[0] == '#':
-            #print line.split('\n')[0]
-            continue
+            print line.split('\n')[0]
+            #continue
         else:
             scaf = line.split('\t')[0]
             chrom = scaf[0:7]
-            #print chrom, scaf
+            #print chrom == tChrom
             if chrom == tChrom:
                 print line.split('\n')[0]
             else:
                 continue
 
-            #if scaf != old_scaf:
-            #    print line.split('\n')[0]
-            #else:
-            #    if bp > old_bp + n_th:
-            #        print line.split('\n')[0]
-            #    else:
-            #        continue
-            #old_scaf, old_bp = scaf, bp
+
