@@ -1,6 +1,6 @@
 #! /usr/bin/python
 #
-# This file subsets a vcf file to only print variants from a list of scaffolds
+# This file subsets a vcf file to only contain variants from a list of scaffolds
 
 # Usage: ~/subVCFbyChromList.py in.vcf scafs.txt > out.vcf
 
