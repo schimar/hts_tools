@@ -1,6 +1,6 @@
 #! /usr/bin/python
 #
-# This script filters a vcf file, where all variants that are physically less than 4 bp apart are dropped (since those might represent small inversions, or more generally, variants with bad alignment). A separate file, containing the scaffold and position (bp) has to be supplied (which can easily be generated with something like 'all variants that are physically less than 4 bp apart are dropped (since those might represent small inversions, or more generally, variants with bad alignment). A separate file, containing the scaffold and position (bp) has to be supplied (which can easily be generated using bash with something like "grep -v '#' variants.vcf | cut -f1,2 -d$'\t' > snpids.txt"
+# This script filters a vcf file, where all variants that are physically less than 4 bp apart are dropped (since those might represent small inversions, or more generally, variants with bad alignment). A separate file, containing the scaffold and position (bp) has to be supplied (which can easily be generated with something like "grep -v '#' variants.vcf | cut -f1,2 -d$'\t' > snpids.txt"
 
 # Usage: ./dropCloseVars.py snpids.txt helico30f1.vcf > helico30f2.vcf
 
