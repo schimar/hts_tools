@@ -31,6 +31,8 @@ with open(sys.argv[1], 'rb') as file:
         if line[0] == '#':
             #continue
             print line.split('\n')[0]
+        elif len(line.split('\t')[4]) > 1:
+            continue
         else:
             dp = int(re.findall('DP=[0-9]+', line)[0].split('=')[1])
             ac = int(re.findall('AC=[0-9]+', line)[0].split('=')[1])
