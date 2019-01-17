@@ -7,7 +7,7 @@ for i in *.sorted.bam; do
     #id=$(echo $id | cut -f7 -d/)
     #RG=\'@RG'\t'ID:${id}\'
     echo $id
-    ~/x_app/samtools/samtools index $i 
+    samtools index $i 
 
 done
 
