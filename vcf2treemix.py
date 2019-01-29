@@ -2,7 +2,7 @@
 #
 # This file reads through a vcf file and a space-separated file assigning populations to individuals (ind, pop). The resulting file prints the number of reference and alternative alleles pewr population. Note that currently, the population names are printed in the last line of the file, which needs to be moved to line 1.
 
-# Usage: ~/hts_tools/freq2treemix.py *_freq
+# Usage: ~/hts_tools/vcf2treemix.py *_freq
 
 from sys import argv
 
