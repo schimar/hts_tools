@@ -7,7 +7,7 @@
 import sys
 
 mindist = 4
-lc = 14807574
+lc = 14807574       # this is the line count (i.e. the number of variants - a bit clunky but I've never gotten around to changing this into a more elegant form)
 
 
 
