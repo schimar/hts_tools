@@ -1,13 +1,43 @@
 
+(see also [this great ressource](https://github.com/stephenturner/oneliners))
 
-### **fastq/a** 
+
+## **fastq/a** 
+
+basic sequence stats. Print total number of reads, total number unique reads, percentage of unique reads, most abundant sequence, its frequency, and percentage of total in file.fq:
+```
+cat myfile.fq | awk '((NR-2)%4==0){read=$1;total++;count[read]++}END{for(read in count){if(!max||count[read]>max) {max=count[read];maxRead=read};if(count[read]==1){unique++}};print total,unique,unique*100/total,maxRead,count[maxRead],count[maxRead]*100/total}'
+```
+
+split a multi-FASTA file into individual FASTA files:
+```
+awk '/^>/{s=++d".fa"} {print > s}' multi.fa
+```
+
+Output sequence name and its length for every sequence within a fasta file:
+```
+cat file.fa | awk '$0 ~ ">" {print c; c=0;printf substr($0,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }'
+```
+
+**fastq** &rarr; **fasta**
+```
+sed -n '1~4s/^@/>/p;2~4p' file.fq > file.fa
+```
+
+Calculate the mean length of reads in a fastq file:
+```
+awk 'NR%4==2{sum+=length($0)}END{print sum/(NR/4)}' input.fastq
+```
+
+Convert a VCF file to a BED file
+```
+sed -e 's/chr//' file.vcf | awk '{OFS="\t"; if (!/^#/){print $1,$2-1,$2,$4"/"$5,"+"}}'
+```
 
 Find out if you have some unusually abundant sequences 
 (this gives a ranked list of the most abundant sequences from among the first 25,000 sequences (remember 4 lines per sequence in a fastq))
 
 ```head -100000 seqs.fastq | grep -A 1 '^@HWI' | grep -v '^@HWI' | sort | uniq -c | sort -n -r | head```
-
-
 
 It can be easy to fool this algorithm, especially if your sequences are long and have higher error rate at the end, in which case you can adjust the uniq command to, say, the first 30 bp:
 
@@ -20,11 +50,13 @@ If you are expecting a constant motif somewhere in all your data, it's a good id
 
 Take two fastq files and turn them into a paired fasta file - drop the quality info and put each read pair one after the other:
 
-```paste $read1s1 $read2s1  | awk 'BEGIN {c=0} {c++; if (tag!="") {print tag "\n" $1 "\n" tag "\n" $2; tag=""} if (substr($1,1,4)=="@HWI") {tag=$1}}' \
-| sed s/'^@HWI'/'>HWI'/  > $output.paired_s1.fasta 2> $output.log &```
+```
+paste $read1s1 $read2s1  | awk 'BEGIN {c=0} {c++; if (tag!="") {print tag "\n" $1 "\n" tag "\n" $2; tag=""} if (substr($1,1,4)=="@HWI") {tag=$1}}' \
+| sed s/'^@HWI'/'>HWI'/  > $output.paired_s1.fasta 2> $output.log &
+```
+
 
 If you'd like to filter only on read pairs with quality values no smaller than 10, it's a bit more work:
-
 ```
 paste $read1s1 $read2s1  | \
 awk 'BEGIN {c=0} {c++; if (c==4) {print $1 "\t" $2 "\t" seq1 "\t" seq2 "\t" tag; c=0} if (c==2) {seq1=$1; seq2=$2;} if (c==1) {tag=$1}}' \
@@ -51,11 +83,24 @@ write joined one-line fastq info to two fastq files:
 ```
 gawk '{printf($1"\n"$2"\n"$3"\n"$4"\n") >> "Sample_matched_R1.fq"; printf($1"\n"$5"\n"$6"\n"$7"\n") >> "Sample_matched_R2.fq"}' Sample_1-line_joined.tab
 ```
+take matching paired-end reads:
+```
+sort Sample_1-line_R1.fq > Sample_1-line_sorted_R1.tab
+sort Sample_1-line_R2.fq > Sample_1-line_sorted_R2.tab
+join Sample_1-line_sorted_R1.tab Sample_1-line_sorted_R2.tab > Sample_1-line_joined.tab
+```
+
+write joined one-line fastq info to two fastq files:
+```
+gawk '{printf($1"\n"$2"\n"$3"\n"$4"\n") >> "Sample_matched_R1.fq"; printf($1"\n"$5"\n"$6"\n"$7"\n") >> "Sample_matched_R2.fq"}' Sample_1-line_joined.tab
+```
 
 
 
 
-### **sam/bam** 
+
+
+## **sam/bam** 
 
 **bam** &rarr; **sam** 
 ```samtools view <infile.bam> > outfile.sam```
@@ -104,7 +149,7 @@ paste r1 r2 > paired.out
 ```
 (It uses the SAM file's flag field (field 2) and some bitwise operations to confirm that both the read and it's mate are mapped, puts the separate alignments into separate files, then uses paste to join them. Since mappers like BWA may output a variable number of fields for each read, I've just used the first four fields. You can also do this with a one-line awk command and do more processing within that command if you want to.)
 
-### **vcf**
+## **vcf**
 
 count all variants in all vcf files:
 ```
@@ -131,10 +176,12 @@ cat *.vcf | awk 'BEGIN {FS=";"} {for (i=1;i<=NF;i++) {if (index($i,"AF1")!=0) {p
 awk 'BEGIN {FS="="} {print int($2*10)/10}' | sort | uniq -c | sort -n -r | head
 ```
 
+## blast 
 
-
-
-
+Keep only top bit scores in blast hits (5 less than the top):
+```
+awk '{ if(!x[$1]++) {print $0; bitscore=($14-6)} else { if($14>bitscore) print $0} }' blastout.txt
+```
 
 
 
