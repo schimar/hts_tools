@@ -2,7 +2,7 @@
 (see also [this great resource](https://github.com/stephenturner/oneliners) for some cool awk, sed and other wizardry  
 as well as [happy belly bioinformatics](https://astrobiomike.github.io/bash/one_liners)  
 and [dohlee's](github.com/dohlee/bioinformatics-one-liners)
-
+and, for mostly [***bash*** script one-liners](www.biostars.org/p/17680/)
 
 ## **fastq/a** 
 
@@ -64,8 +64,19 @@ If you are expecting a constant motif somewhere in all your data, it's a good id
 
 ```head -100000 seqs.fastq | grep -A 1 '^@HWI' | grep -v '^@HWI' | awk '{print substr($1,12,10)}' | sort | uniq -c | sort -n -r | head```
 
+single line fasta file to multi-line fasta of 60 characteres each line
+```
+awk -v FS= '/^>/{print;next}{for (i=0;i<=NF/60;i++) {for (j=1;j<=60;j++) printf "%s", $(i*60 +j); print ""}}' file
+```
+or simpler, use **fold**
+```fold -w 60 file```
 
-Take two fastq files and turn them into a paired fasta file - drop the quality info and put each read pair one after the other:
+sequence length of every entry in a multifasta file
+```
+awk '/^>/ {if (seqlen){print seqlen}; print ;seqlen=0;next; } { seqlen = seqlen +length($0)}END{print seqlen}' file.fa
+```
+
+take two fastq files and turn them into a paired fasta file - drop the quality info and put each read pair one after the other:
 
 ```
 paste $read1s1 $read2s1  | awk 'BEGIN {c=0} {c++; if (tag!="") {print tag "\n" $1 "\n" tag "\n" $2; tag=""} if (substr($1,1,4)=="@HWI") {tag=$1}}' \
@@ -106,7 +117,10 @@ take a fasta file with a bunch of short scaffolds, e.g., labeled >Scaffold12345,
 samtools faidx genome.fa && grep -v Scaffold genome.fa.fai | cut -f1 | xargs -n1 samtools faidx genome.fa > genome.noscaffolds.fa
 ```
 
-
+start with a list of ids for which you need to extract fasta sequences w/ **samtools**
+```
+cut -c 2- ids.txt | xargs -n 1 samtools faidx file.fasta > out.fasta
+```
 
 ## **sam/bam** 
 
