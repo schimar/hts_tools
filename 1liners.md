@@ -1,5 +1,7 @@
 
-(see also [this great ressource](https://github.com/stephenturner/oneliners) for some cool awk, sed and other wizardry)
+(see also [this great resource](https://github.com/stephenturner/oneliners) for some cool awk, sed and other wizardry  
+as well as [happy belly bioinformatics](https://astrobiomike.github.io/bash/one_liners)  
+and [dohlee's](github.com/dohlee/bioinformatics-one-liners)
 
 
 ## **fastq/a** 
@@ -23,14 +25,27 @@ cat file.fa | awk '$0 ~ ">" {print c; c=0;printf substr($0,2,100) "\t"; } $0 !~ 
 ```
 sed -n '1~4s/^@/>/p;2~4p' file.fq > file.fa
 ```
+extract ids from fa
+```
+grep -o -E "^>\w+" file.fasta | tr -d ">"
+```
 
-Calculate the mean length of reads in a fastq file:
+calculate mean length of reads in fastq:
 ```
 awk 'NR%4==2{sum+=length($0)}END{print sum/(NR/4)}' input.fastq
 ```
 
+linearize fasta
+```
+cat file.fasta | awk '/^>/{if(N>0) printf("\n"); ++N; printf("%s\t",$0);next;} {printf("%s",$0);}END{printf("\n");}'
+```
 
-extract specific reads from fastq file according to reads name :
+remove duplicated seqs
+```
+sed -e '/^>/s/$/@/' -e 's/^>/#/' file.fasta | tr -d '\n' | tr "#" "\n" | tr "@" "\t" | sort -u -t $'\t' -f -k 2,2  | sed -e 's/^/>/' -e 's/\t/\n/'
+```
+
+extract specific reads from fastq file according to read name:
 ```
 zcat a.fastq.gz | awk 'BEGIN{RS="@";FS="\n"}; $1~/readsName/{print $2; exit}'
 ```
@@ -71,7 +86,6 @@ awk 'BEGIN {c=0} {c++; if (c==4) {print $1 "\t" $2 "\t" seq1 "\t" seq2 "\t" tag;
   if (badQual!=1) { print $5 "\n" $3 "\n" $5 "\n" $4 }  }'
 | sed s/'^@HWI'/'>HWI'/  > $output.paired_s1.fasta 2> $output.log &
 ```
-
 (Note that you could have combined the two awk commands - I don't like to do that because it's harder for me to see what I'm doing, and harder for me to copy it for the next problem I need to solve.)
 
 take matching paired-end reads:
@@ -85,17 +99,7 @@ write joined one-line fastq info to two fastq files:
 ```
 gawk '{printf($1"\n"$2"\n"$3"\n"$4"\n") >> "Sample_matched_R1.fq"; printf($1"\n"$5"\n"$6"\n"$7"\n") >> "Sample_matched_R2.fq"}' Sample_1-line_joined.tab
 ```
-take matching paired-end reads:
-```
-sort Sample_1-line_R1.fq > Sample_1-line_sorted_R1.tab
-sort Sample_1-line_R2.fq > Sample_1-line_sorted_R2.tab
-join Sample_1-line_sorted_R1.tab Sample_1-line_sorted_R2.tab > Sample_1-line_joined.tab
-```
 
-write joined one-line fastq info to two fastq files:
-```
-gawk '{printf($1"\n"$2"\n"$3"\n"$4"\n") >> "Sample_matched_R1.fq"; printf($1"\n"$5"\n"$6"\n"$7"\n") >> "Sample_matched_R2.fq"}' Sample_1-line_joined.tab
-```
 
 take a fasta file with a bunch of short scaffolds, e.g., labeled >Scaffold12345, remove them, and write a new fasta without them:
 ```
@@ -137,7 +141,10 @@ samtools view input.bam | \
 (You can also do this with bamtools and picard)
 [This seqanswers post](http://seqanswers.com/forums/showthread.php?t=4180) has a great two-liner to add a read group to a BAM file, and contrasts it with a perl program (many more than 2 lines) to do the same thing.
 
-
+**bam** &rarr; **bed**
+```
+samtools view file.bam | perl -F'\t' -ane '$strand=($F[1]&16)?"-":"+";$length=1;$tmp=$F[5];$tmp =~ s/(\d+)[MD]/$length+=$1/eg;print "$F[2]\t$F[3]\t".($F[3]+$length)."\t$F[0]\t0\t$strand\n";' > file.bed
+```
 
 find most abundant sequence start site:
 ```
