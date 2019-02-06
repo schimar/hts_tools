@@ -1,5 +1,5 @@
 
-(see also [this great ressource](https://github.com/stephenturner/oneliners))
+(see also [this great ressource](https://github.com/stephenturner/oneliners) for some cool awk, sed and other wizardry)
 
 
 ## **fastq/a** 
@@ -29,10 +29,12 @@ Calculate the mean length of reads in a fastq file:
 awk 'NR%4==2{sum+=length($0)}END{print sum/(NR/4)}' input.fastq
 ```
 
-Convert a VCF file to a BED file
+
+extract specific reads from fastq file according to reads name :
 ```
-sed -e 's/chr//' file.vcf | awk '{OFS="\t"; if (!/^#/){print $1,$2-1,$2,$4"/"$5,"+"}}'
+zcat a.fastq.gz | awk 'BEGIN{RS="@";FS="\n"}; $1~/readsName/{print $2; exit}'
 ```
+
 
 Find out if you have some unusually abundant sequences 
 (this gives a ranked list of the most abundant sequences from among the first 25,000 sequences (remember 4 lines per sequence in a fastq))
@@ -95,8 +97,10 @@ write joined one-line fastq info to two fastq files:
 gawk '{printf($1"\n"$2"\n"$3"\n"$4"\n") >> "Sample_matched_R1.fq"; printf($1"\n"$5"\n"$6"\n"$7"\n") >> "Sample_matched_R2.fq"}' Sample_1-line_joined.tab
 ```
 
-
-
+take a fasta file with a bunch of short scaffolds, e.g., labeled >Scaffold12345, remove them, and write a new fasta without them:
+```
+samtools faidx genome.fa && grep -v Scaffold genome.fa.fai | cut -f1 | xargs -n1 samtools faidx genome.fa > genome.noscaffolds.fa
+```
 
 
 
@@ -175,6 +179,17 @@ histogram of allele freqs:
 cat *.vcf | awk 'BEGIN {FS=";"} {for (i=1;i<=NF;i++) {if (index($i,"AF1")!=0) {print $i} }}' | \
 awk 'BEGIN {FS="="} {print int($2*10)/10}' | sort | uniq -c | sort -n -r | head
 ```
+
+**vcf** &rarr; **BED**
+```
+sed -e 's/chr//' file.vcf | awk '{OFS="\t"; if (!/^#/){print $1,$2-1,$2,$4"/"$5,"+"}}'
+```
+
+count missing sample in vcf file per line:
+
+bcftools query -f '[%GT\t]\n' a.bcf |  awk '{miss=0};{for (x=1; x<=NF; x++) if ($x=="./.") {miss+=1}};{print miss}' > nmiss.count
+
+
 
 ## blast 
 
