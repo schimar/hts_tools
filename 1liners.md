@@ -1,6 +1,6 @@
 
 
-### fastq/a 
+### **fastq/a** 
 
 Find out if you have some unusually abundant sequences 
 (this gives a ranked list of the most abundant sequences from among the first 25,000 sequences (remember 4 lines per sequence in a fastq))
@@ -40,17 +40,31 @@ awk 'BEGIN {c=0} {c++; if (c==4) {print $1 "\t" $2 "\t" seq1 "\t" seq2 "\t" tag;
 
 (Note that you could have combined the two awk commands - I don't like to do that because it's harder for me to see what I'm doing, and harder for me to copy it for the next problem I need to solve.)
 
+take matching paired-end reads:
+```
+sort Sample_1-line_R1.fq > Sample_1-line_sorted_R1.tab
+sort Sample_1-line_R2.fq > Sample_1-line_sorted_R2.tab
+join Sample_1-line_sorted_R1.tab Sample_1-line_sorted_R2.tab > Sample_1-line_joined.tab
+```
 
-### sam/bam 
+write joined one-line fastq info to two fastq files:
+```
+gawk '{printf($1"\n"$2"\n"$3"\n"$4"\n") >> "Sample_matched_R1.fq"; printf($1"\n"$5"\n"$6"\n"$7"\n") >> "Sample_matched_R2.fq"}' Sample_1-line_joined.tab
+```
 
-bam &rarr; sam 
+
+
+
+### **sam/bam** 
+
+**bam** &rarr; **sam** 
 ```samtools view <infile.bam> > outfile.sam```
 
 
-sam &rarr; bam 
+**sam** &rarr; **bam** 
 ```samtools view -S -b <infile.sam> > outfile.bam ```
 
-change the headers in sam file:
+change headers in sam file:
 ```
 cat notrrna.genome.sam | awk 'BEGIN {FS="\t"; OFS="\t"} \
    {if ($3=="mitochondria") {$3="ChrM"} if ($3=="chloroplast") {$3="ChrC"} \
@@ -59,10 +73,71 @@ cat notrrna.genome.sam | awk 'BEGIN {FS="\t"; OFS="\t"} \
    print}' > notrrna.genome.tair.sam
 ```
 
-or with samtools reheader:
+If you only need to change the name of one reference, I'd use sed and a trick like this to pipe straight from binary to text and back to binary:
 ```
 samtools view -h notrrna.genome.bam | sed s/'mitochondria'/'ChrM'/g | samtools view -S -b - > blah.bam
 ```
+(You can put any combination of grep/sed/awk you like in between the two samtools commands; this might be useful if you have a mixed population. You should map all the data at once to a concatenated reference, but then might want to separate the BAM file into two - one for organism A and one for organism B. You can also use this for things like searching for indels quickly by scanning the CIGAR string, or parsing any of the custom fields that your mapper/genotyper have produced)
+
+
+**bam** &rarr; **fastq**
+```
+samtools view input.bam | \
+   awk 'BEGIN {FS="\t"} {print "@" $1 "\n" $10 "\n+\n" $11}' > output.bam.fastq
+```
+(You can also do this with bamtools and picard)
+[This seqanswers post](http://seqanswers.com/forums/showthread.php?t=4180) has a great two-liner to add a read group to a BAM file, and contrasts it with a perl program (many more than 2 lines) to do the same thing.
+
+
+
+find most abundant sequence start site:
+```
+cat in.sam | head -100000 | awk '{print $3"_"$4}' | sort | uniq -c | sort -n -r | head
+```
+(Note that this samples just the first 100,000 mapped sequences - works fine on an unsorted sam file, but doesn't make sense on a sorted bam/sam file. On a sorted file, you have to process the whole file. Even so, doing this command on a few tens of millions of sequences should take only a few minutes)
+
+join mated sequences in a sam/bam file onto one line (and discard the unmated sequences) so you can process them jointly, this method is pretty robust:
+```
+cat in.sam | awk '{if (and(0x0040,$2)&&!(and(0x0008,$2))&&!(and(0x0004,$2))) {print $1 "\t" $2 "\t" $3"\t"$4}}' > r1
+cat in.sam | awk '{if (and(0x0080,$2)&&!(and(0x0008,$2))&&!(and(0x0004,$2))) {print $1 "\t" $2 "\t" $3"\t"$4}}' > r2
+paste r1 r2 > paired.out
+```
+(It uses the SAM file's flag field (field 2) and some bitwise operations to confirm that both the read and it's mate are mapped, puts the separate alignments into separate files, then uses paste to join them. Since mappers like BWA may output a variable number of fields for each read, I've just used the first four fields. You can also do this with a one-line awk command and do more processing within that command if you want to.)
+
+### **vcf**
+
+count all variants in all vcf files:
+```
+cat *.vcf | grep -v '^#' | wc -l
+```
+
+count in at least two vcf files:
+```
+cat *.vcf | grep -v '^#' | awk '{print $1 "\t" $2 "\t" $5}' | sort | uniq -d | wc -l
+```
+
+count in three vcf files
+```
+cat *.raw.vcf | grep -v '^#' | awk '{print $1 "\t" $2 "\t" $5}' | sort | uniq -c | grep ' 3 ' | wc -l
+```
+
+number of indels called in vcf:
+
+```grep -c INDEL *.vcf```
+
+histogram of allele freqs:
+```
+cat *.vcf | awk 'BEGIN {FS=";"} {for (i=1;i<=NF;i++) {if (index($i,"AF1")!=0) {print $i} }}' | \
+awk 'BEGIN {FS="="} {print int($2*10)/10}' | sort | uniq -c | sort -n -r | head
+```
+
+
+
+
+
+
+
+
 
 
 
