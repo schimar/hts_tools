@@ -122,6 +122,10 @@ start with a list of ids for which you need to extract fasta sequences w/ **samt
 cut -c 2- ids.txt | xargs -n 1 samtools faidx file.fasta > out.fasta
 ```
 
+
+(also: [list](https://www.biostars.org/p/144950/) of fasta and fastq tools in different languages)
+
+
 ## **sam/bam** 
 
 **bam** &rarr; **sam** 
