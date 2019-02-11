@@ -34,6 +34,8 @@ calculate mean length of reads in fastq:
 ```
 awk 'NR%4==2{sum+=length($0)}END{print sum/(NR/4)}' input.fastq
 ```
+(and use bioawk for the same if you have **fast.gz** files)
+
 
 linearize fasta
 ```
