@@ -7,7 +7,7 @@
 import sys
 
 mindist = 4
-lc = 14807574       # this is the line count (i.e. the number of variants - a bit clunky but I've never gotten around to changing this into a more elegant form)
+lc = 1343873       # this is the line count (i.e. the number of variants - a bit clunky but I've never gotten around to changing this into a more elegant form)
 
 
 
@@ -54,7 +54,7 @@ with open(sys.argv[2], 'rb') as vcfile:
         if line[0] == '#':
             print line.split('\n')[0]
         else:
-            j = i - 828
+            j = i - 2259
             if keep[j] == 1:
                 print line.split('\n')[0]
             else:

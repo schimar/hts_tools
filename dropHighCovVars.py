@@ -11,7 +11,7 @@ import re
 
 # helico30f2maf5.vcf: mean + 3sd = 452.655272786 + 3 * 181.54293551
 # lim74f1: 1567.1 + 3* 1111.72 = 4902.26 -> ~ 4900
-maxCoverage = 4900
+maxCoverage = 1447
 
 
 dpList = list()

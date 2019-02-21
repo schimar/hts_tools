@@ -25,21 +25,27 @@ with open(argv[1], 'rb') as file:
                 gts = line_list[9:len(line_list)]
                 allele_list = [0.0,0.0]
                 for gt in gts:
-                    gl_ind = list()
-                    gl = gt.split(':')[4].split(',')
-                    if min(gl) == '.':
+                    if gt == './.':
                         continue
                     else:
-                        gtix = gl.index(min(gl))
-                        if gtix == 1:
-                            allele_list[0] += 2
-                        elif gtix == 2:
-                            allele_list[0] += 1
-                            allele_list[1] += 1
+                        gl_ind = list()
+                        try:
+                            gl = gt.split(':')[4].split(',')
+                        except:
+                            continue
+                        if min(gl) == '.':
+                            continue
                         else:
-                            allele_list[1] += 2
+                            gtix = gl.index(min(gl))
+                            if gtix == 1:
+                                allele_list[0] += 2
+                            elif gtix == 2:
+                                allele_list[0] += 1
+                                allele_list[1] += 1
+                            else:
+                                allele_list[1] += 2
                 maf = min(allele_list)/(sum(allele_list))
-                if maf >= maf_th:
+                if maf < maf_th:
                     print line.split('\n')[0]
                 else:
                     continue

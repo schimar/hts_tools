@@ -27,12 +27,15 @@ with open(argv[1], 'rb') as file:
                 count_list = list()
                 for i, ind in enumerate(inds):
                     count = int()
-                    ad = vcf_inds[i].split(':')[1]
-                    if ad == '.':
+                    if vcf_inds[i] == './.':
                         count += 0
                     else:
-                        ad = ad.split(',')
-                        count += int(ad[0]) + int(ad[1])
+                        ad = vcf_inds[i].split(':')[1]
+                        if ad == '.':
+                            count += 0
+                        else:
+                            ad = ad.split(',')
+                            count += int(ad[0]) + int(ad[1])
                     count_list.append(str(count))
                 print ' '.join(count_list)
     file.close()
