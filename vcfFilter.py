@@ -28,9 +28,10 @@ maxFish = 60 # maximum phred-scaled p-value using Fisher's Exact Test to detect 
 n_seqs_retained = int()
 with open(sys.argv[1], 'rb') as file:
     for line in file:
+        line = line.decode('utf-8')
         if line[0] == '#':
             #continue
-            print line.split('\n')[0]
+            print(line.split('\n')[0])
         elif len(line.split('\t')[4]) > 1:
             continue
         else:
@@ -49,7 +50,7 @@ with open(sys.argv[1], 'rb') as file:
                     fish = float(re.findall('FS=[0.0-9.0]+', line)[0].split('=')[1])
                     mq = float(re.findall('MQ=[0.0-9.0]+', line)[0].split('=')[1])
                     if (dp >= minCoverage and ac >= minAltRds and af != notFixed and mq >= mapQual and bqrs >= minBqrs and mqrs >= minMqrs and rprs >= minRprs and qd >= minQd and fish <= maxFish):
-                        print line.split('\n')[0]
+                        print(line.split('\n')[0])
 
                     #print bqrs, mqrs, rprs, qd, fish
                     #if re.
